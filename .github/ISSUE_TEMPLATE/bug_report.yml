@@ -1,0 +1,133 @@
+name: 🐛 Bug report
+description: Something in the app is broken or behaves incorrectly.
+labels: ["bug", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this.
+
+        **This issue will be public.** Please don't paste screenshots or logs
+        containing your email address, session tokens, or password-reset links.
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Preflight
+      options:
+        - label: I searched the existing issues and this isn't a duplicate.
+          required: true
+        - label: I'm on the latest version I can install.
+          required: false
+
+  - type: input
+    id: version
+    attributes:
+      label: App version
+      description: Found in **Settings → About**. Please give the exact number.
+      placeholder: "0.7.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Android
+        - Web (browser)
+        - Windows
+        - iOS
+    validations:
+      required: true
+
+  - type: input
+    id: device
+    attributes:
+      label: Device / browser
+      description: Phone model and OS version, or browser and version.
+      placeholder: "Pixel 7, Android 15 — or — Firefox 141 on Windows 11"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Where in the app?
+      options:
+        - Collection
+        - Browse / search
+        - Card detail & prices
+        - Decks
+        - Card scanner
+        - Import
+        - Export
+        - Statistics
+        - Wishlists
+        - Trades / friends
+        - Account, login & sync
+        - Settings
+        - Home
+        - Somewhere else / not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: game
+    attributes:
+      label: Which game?
+      options:
+        - Pokémon TCG
+        - "Magic: The Gathering"
+        - Both
+        - Not game-specific
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What you saw, and what you expected to see instead.
+      placeholder: |
+        What I did: …
+        What happened: …
+        What I expected: …
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: >
+        The single most useful thing in this form. Number them, and start from
+        a fresh launch of the app where you can.
+      placeholder: |
+        1. Open the Collection tab
+        2. Tap …
+        3. …
+    validations:
+      required: true
+
+  - type: dropdown
+    id: frequency
+    attributes:
+      label: How often does it happen?
+      options:
+        - Every time
+        - Most of the time
+        - Occasionally / hard to reproduce
+        - It happened once
+    validations:
+      required: true
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Screenshots or anything else
+      description: >
+        Drag images in here. **Check them for personal data first** — email
+        address, username, anything in a notification bar.
+    validations:
+      required: false

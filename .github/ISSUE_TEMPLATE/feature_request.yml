@@ -1,0 +1,81 @@
+name: ✨ Feature request
+description: Suggest something new, or an improvement to something that exists.
+labels: ["enhancement", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Suggestions are welcome. The most useful ones describe **the problem**
+        rather than only the solution — that usually leaves room for a better
+        fix than the one either of us thought of first.
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Preflight
+      options:
+        - label: I searched the existing issues and discussions for this idea.
+          required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: What are you trying to do today, and what makes it awkward?
+      placeholder: >
+        When I add cards from a booster box I have to search each one
+        individually, which takes …
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: What would you like to happen?
+      description: Your proposed solution, if you have one in mind.
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What do you do instead right now?
+      description: >
+        Workarounds, or how another app handles it. Naming the other app is
+        genuinely helpful.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part of the app?
+      options:
+        - Collection
+        - Browse / search
+        - Card detail & prices
+        - Decks
+        - Card scanner
+        - Import
+        - Export
+        - Statistics
+        - Wishlists
+        - Trades / friends
+        - Account, login & sync
+        - Settings
+        - Home
+        - Something new entirely
+    validations:
+      required: true
+
+  - type: dropdown
+    id: game
+    attributes:
+      label: Which game?
+      options:
+        - Pokémon TCG
+        - "Magic: The Gathering"
+        - Both
+        - Not game-specific
+    validations:
+      required: true
