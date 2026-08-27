@@ -39,7 +39,9 @@ Redact them, or describe the problem in words instead.
 
 ## What happens next
 
-Issues are triaged by hand by one person, so replies aren't instant. Accepted
-reports are moved into the private development repository for the actual work,
-and the issue here is updated and closed when the fix ships. A closed issue with
-a linked release is a fixed issue.
+Issues are triaged by hand by one person, so replies aren't instant.
+
+Your issue **stays here** for its whole life, so you can always see where it
+got to. Once it's accepted it gets the `tracked` label and the work itself
+happens in the private repository — you won't see the commits, but the issue is
+updated when the fix ships and closed against a release.
