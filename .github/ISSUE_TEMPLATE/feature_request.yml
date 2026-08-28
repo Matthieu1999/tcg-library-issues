@@ -75,7 +75,11 @@ body:
       options:
         - Pokémon TCG
         - "Magic: The Gathering"
-        - Both
+        - One Piece
+        - Yu-Gi-Oh
+        - Lorcana
+        - Riftbound
+        - All
         - Not game-specific
     validations:
       required: true
