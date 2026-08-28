@@ -77,9 +77,13 @@ body:
     attributes:
       label: Which game?
       options:
-        - Pokémon TCG
+        - Pokemon
         - "Magic: The Gathering"
-        - Both
+        - One Piece
+        - Yu-Gi-Oh
+        - Lorcana
+        - Riftbound
+        - All
         - Not game-specific
     validations:
       required: true
