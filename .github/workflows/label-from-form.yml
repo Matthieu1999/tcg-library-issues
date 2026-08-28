@@ -1,0 +1,89 @@
+name: Label from form
+
+# Issue forms can only apply a STATIC `labels:` list, so every bug report
+# arrives as `bug` + `needs triage` no matter what the reporter picked.  This
+# reads the dropdown answers back out of the rendered body and applies the
+# labels those answers imply.
+#
+# `opened` only, deliberately.  Adding `edited` would re-apply the mapping
+# every time a reporter touches their issue, silently reverting a label that
+# was corrected during triage.
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+
+jobs:
+  label:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            // A dropdown answer lands in the body as the rendered `label:`
+            // text followed by the chosen option:
+            //
+            //     ### Which game?
+            //
+            //     Pokemon
+            //
+            // so the key is the HEADING, not the form's `id:`.  Renaming a
+            // dropdown's label in the .yml breaks this file; renaming its id
+            // does not.  Webhook bodies are CRLF, hence the normalise.
+            const body = (context.payload.issue.body || '').replace(/\r\n/g, '\n');
+
+            const answer = (heading) => {
+              const esc = heading.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+              const m = body.match(new RegExp('### ' + esc + '\\n+([^\\n]+)'));
+              return m ? m[1].trim().toLowerCase() : null;
+            };
+
+            // Keyed on the lowercased option text.  A mapping table rather
+            // than a bare .toLowerCase(), because the two forms spell the
+            // same game differently -- bug_report says "Pokemon",
+            // feature_request says "Pokémon TCG" -- and because "All" has no
+            // same-named label.  Every other option lowercases straight onto
+            // an existing label, which is a coincidence worth not relying on.
+            const GAME = {
+              'pokemon':              'pokemon',
+              'pokémon tcg':          'pokemon',
+              'magic: the gathering': 'magic: the gathering',
+              'one piece':            'one piece',
+              'yu-gi-oh':             'yu-gi-oh',
+              'lorcana':              'lorcana',
+              'riftbound':            'riftbound',
+              'all':                  'multi-tcg',
+              // 'not game-specific' is deliberately unmapped.
+            };
+
+            // Only the areas where the layer is decided by the architecture
+            // rather than by what actually broke.  Collection, Browse, Decks,
+            // Card detail, Statistics, Wishlists, Trades, Settings and Home
+            // all have a real client half and a real server half, so the
+            // reporter's answer does not determine the layer, and guessing
+            // one produces a label triage has to re-check anyway.
+            // `database` is never inferable from this dropdown at all.
+            const AREA = {
+              'import':                'frontend',  // client-side CSV parsers
+              'export':                'frontend',  // client-side writers
+              'card scanner':          'backend',   // /api/scan/match + FAISS
+              'account, login & sync': 'backend',   // auth, sessions, sync
+            };
+
+            const game = answer('Which game?');
+            // bug_report says "Where in the app?"; feature_request says
+            // "Which part of the app?".
+            const area = answer('Where in the app?') ?? answer('Which part of the app?');
+
+            const labels = [...new Set([GAME[game], AREA[area]].filter(Boolean))];
+            core.info(`game=${game} area=${area} -> ${labels.join(', ') || '(none)'}`);
+            if (!labels.length) return;
+
+            await github.rest.issues.addLabels({
+              ...context.repo,
+              issue_number: context.issue.number,
+              labels,
+            });
