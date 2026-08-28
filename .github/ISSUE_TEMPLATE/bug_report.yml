@@ -1,6 +1,7 @@
 name: 🐛 Bug report
 description: Something in the app is broken or behaves incorrectly.
 labels: ["bug", "needs triage"]
+assignees: ["Matthieu1999"]
 body:
   - type: markdown
     attributes:

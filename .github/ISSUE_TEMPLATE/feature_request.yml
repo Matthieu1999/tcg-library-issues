@@ -1,6 +1,7 @@
 name: ✨ Feature request
 description: Suggest something new, or an improvement to something that exists.
 labels: ["enhancement", "needs triage"]
+assignees: ["Matthieu1999"]
 body:
   - type: markdown
     attributes:
